@@ -18,10 +18,14 @@ using namespace std;
 
 class Game{
 private:
+    //Beide Spielfelder
     Board _boardArray[2];
     int _player;
+    //Solange bis Ende erreicht
     bool _end;
-    string _symbols[5] = {"~", "*", "x"};
+    //Symbole für Ausgabe
+    string _symbols[3] = {"~", "*", "x"};
+    //Konfiguration für Anzahl der Schiffstypen z.B.: 1 Stück der Länge 5
     map<int, int> _maxShipTypeCount = {
         {2,4},
         {3,3},
@@ -34,8 +38,9 @@ public:
     void placement(int id);
     bool addShip(int length, Point position, char alignment, int id);
     void drawGame();
-    void handleInputGame();
+    void handleAttackInput();
     int flipFlop(int i);
+    void drawRules();
 };
 
 #endif /* Game_hpp */
