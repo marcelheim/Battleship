@@ -9,7 +9,6 @@
 #ifndef Board_hpp
 #define Board_hpp
 
-#include <iostream>
 #include <map>
 #include <vector>
 #include "Ship.hpp"
@@ -19,23 +18,22 @@ using namespace std;
 //TODO: Variable Boardsize
 class Board{
 private:
+    //Enthält alle Schiffe auf dem Feld
     vector<Ship> _shipVector;
+    //Ob das Spielfeld verloren hat
     bool _gameOver;
+    //Schiffe werden je nach Typ (Länge) gezählt
     map<int,int> _shipTypeCount;
-    int _sunkenShipsCount;
 public:
-    //TODO: Replace array with class
+    //Matrix für sichtbares Spielfeld für Gegner während der Spielphase
     int boardMatrix[10][10];
+    //Matrix für Platzierung der Schiffe
     int shipMatrix[10][10];
-    bool doOverlap(Point A1, Point A2, Point B1, Point B2);
     Board();
-    ~Board();
     void init();
-    //TODO: AttackHandler + Amount of Ships
     bool addShip(int length, Point position, char alignment);
     bool handleAttack(Point position);
     bool isGameOver();
-    int getSunkenShipsCount();
     map<int,int> getShipTypeCount();
 };
 

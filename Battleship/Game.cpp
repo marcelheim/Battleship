@@ -8,6 +8,7 @@
 
 #include "Game.hpp"
 
+//Konstruktor mit Initialisierung
 Game::Game(){
     _boardArray[0] = Board();
     _boardArray[1] = Board();
@@ -15,14 +16,11 @@ Game::Game(){
     srand((uint32_t)time(NULL));
 }
 
+//Spielablauf
 void Game::gameLoop(){
-    _boardArray[0].addShip(4, Point(0,6), 'V');
-    _boardArray[0].addShip(4, Point(2,6), 'V');
-    _boardArray[1].addShip(4, Point(0,0), 'H');
-    _boardArray[1].addShip(4, Point(2,6), 'V');
-    
     placement(0);
     placement(1);
+    //Auswählen eines zufälligen Spielers
     _player = rand() % 2;
     while (!_end) {
         _end = _boardArray[flipFlop(_player)].isGameOver();
@@ -31,26 +29,9 @@ void Game::gameLoop(){
             handleInputGame();
         }
     }
-    system("clear");
-    cout << "Winner: Player " << _player + 1 << endl << endl;
-    int symbolId, x, y, i;
-    cout << "Board 1:\t\tBoard 2:" << endl;
-    cout << "  A B C D E F G H I J\t  A B C D E F G H I J" << endl;
-    for (y = 0; y < 10; y++) {
-        for(i = 0; i <= 1; i++){
-            cout << y << " ";
-            for (x = 0; x < 10; x++) {
-                if(_boardArray[i].boardMatrix[x][y] != 2 && _boardArray[i].shipMatrix[x][y] != 0) symbolId = 4;
-                else symbolId = _boardArray[i].boardMatrix[x][y];
-                cout << _symbols[symbolId] << " ";
-            }
-            cout << "\t";
-        }
-        cout << endl;
-    }
 }
 
-//TODO: Parse input
+//Platzieren der Schiffe
 void Game::placement(int id){
     int x, y, length;
     Point position;
@@ -59,16 +40,11 @@ void Game::placement(int id){
     
     while (!done) {
         system("clear");
-        
         done = true;
         for(auto element : _maxShipTypeCount){
             if(_boardArray[id].getShipTypeCount()[element.first] < element.second) done = false;
         }
-        cout << "Player: " << id + 1 << " |";
-        for(auto element : _maxShipTypeCount){
-            cout << " " << element.first << ": " <<  _boardArray[id].getShipTypeCount()[element.first] << "/" << element.second;
-        }
-        cout << endl << endl;
+        cout << "Player: " << id + 1 << endl << endl;
         cout << "  A B C D E F G H I J" << endl;
         for (y = 0; y < 10; y++) {
             cout << y;
@@ -87,16 +63,15 @@ void Game::placement(int id){
             cout << "Y: ";
             cin >> position.y;
             
-            cout << "Alignment: ";
+            cout << "Alignment (H/V): ";
             cin >> alignment;
             
             cout << "Length: ";
             cin >> length;
             
-            if(addShip(length, position, alignment, id)) done = false;
+            if(_boardArray[id].addShip(length, position, alignment)) done = false;
         }
         else{
-            //Check for n
             cout << endl << "Ready?(y/n): ";
             cin >> ready;
             if(ready != 'y'){
@@ -107,11 +82,6 @@ void Game::placement(int id){
     }
     
     
-}
-
-bool Game::addShip(int length, Point position, char alignment, int id){
-    if(_boardArray[id].getShipTypeCount()[length] >= _maxShipTypeCount[length]) return false;
-    else return _boardArray[id].addShip(length, position, alignment);
 }
 
 void Game::drawGame(){

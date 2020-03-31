@@ -9,38 +9,35 @@
 #ifndef Ship_hpp
 #define Ship_hpp
 
-#include <vector>
-
-using namespace std;
-
+//Vereinfachung der Koordinatenübergabe
 struct Point
 {
     int x, y;
-    Point(){}
+    Point(){
+        x = 0;
+        y = 0;
+    }
     Point(int x, int y): x(x), y(y){}
 };
 
-//TODO: Variable Boardsize
 class Ship{
 private:
-    vector<bool> _shipDamageVector;
+    //Schiff (Rechteck) lässt sich durch 2 Punkte definieren
     Point _position[2];
-    Point _blockedArea[2];
+    //Das Schiff kann zwei Ausrichtungen haben: Horizontal und Vertikal
     char _alignment;
+    //Jedes Schiff hat eine Id. Mit ihr kann auf dem Spielfeld bestimmt werden welches Schiff wo ist
     int _id;
-    bool _sunk;
+    //Länge des Schiffs
     int _length;
 public:
     Ship();
     Ship(int length, Point position, char alignment, int id);
     bool handleAttack(Point position);
     Point* getPosition();
-    Point* getBlockedArea();
     char getAlignment();
     int getId();
-    bool isSunk();
     int getLength();
-    vector<bool> getShipDamageVector();
 };
 
 #endif /* Ship_hpp */
