@@ -34,8 +34,6 @@ public:
     //TODO: AttackHandler + Amount of Ships
     bool addShip(int length, Point position, char alignment);
     bool handleAttack(Point position);
-    //TODO: Remove
-    void debugPrint();
     bool isGameOver();
     int getSunkenShipsCount();
     map<int,int> getShipTypeCount();

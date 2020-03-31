@@ -22,6 +22,7 @@ void Board::init(){
         }
     }
     _shipVector.clear();
+    _shipTypeCount.clear();
 }
 
 Board::~Board(){}
@@ -29,7 +30,6 @@ Board::~Board(){}
 bool Board::addShip(int length, Point position, char alignment){
     int id = (int) _shipVector.size() + 1;
     bool isValid = true;
-    
     
     Ship newShip = Ship(length, position, alignment,id);
     
@@ -80,7 +80,7 @@ bool Board::handleAttack(Point position){
         if(_shipVector[id-1].isSunk()) {
             for (int y = _shipVector[id-1].getBlockedArea()[0].y; y <= _shipVector[id-1].getBlockedArea()[1].y; y++) {
                 for (int x = _shipVector[id-1].getBlockedArea()[0].x; x <= _shipVector[id-1].getBlockedArea()[1].x; x++) {
-                    boardMatrix[x][y] = 3;
+                    if(boardMatrix[x][y] != 1) boardMatrix[x][y] = 3;
                 }
             }
             for (int y = _shipVector[id-1].getPosition()[0].y; y <= _shipVector[id-1].getPosition()[1].y; y++) {
@@ -96,21 +96,6 @@ bool Board::handleAttack(Point position){
     }
     if(_sunkenShipsCount >= _shipVector.size()) _gameOver = true;
     return hit;
-}
-
-void Board::debugPrint(){
-    for (int y = 0; y < 10; y++) {
-        int x;
-        for (x = 0; x < 10; x++) {
-            cout << boardMatrix[x][y];
-        }
-        cout << "\t";
-        for (x = 0; x < 10; x++) {
-            cout << shipMatrix[x][y];
-        }
-        cout << endl;
-    }
-    cout << endl;
 }
 
 bool Board::isGameOver(){
