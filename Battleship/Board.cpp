@@ -70,7 +70,6 @@ bool Board::doOverlap(Point A1, Point A2, Point B1, Point B2){
     return overlap;
 }
 
-//TODO: Implement search for object with id
 bool Board::handleAttack(Point position){
     int id = shipMatrix[position.x][position.y];
     bool hit = false;
