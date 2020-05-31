@@ -20,7 +20,6 @@ struct Point
     Point(int x, int y): x(x), y(y){}
 };
 
-//TODO: Variable Boardsize
 class Ship{
 private:
     vector<bool> _shipDamageVector;

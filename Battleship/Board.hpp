@@ -16,7 +16,6 @@
 
 using namespace std;
 
-//TODO: Variable Boardsize
 class Board{
 private:
     vector<Ship> _shipVector;
@@ -31,7 +30,6 @@ public:
     Board();
     ~Board();
     void init();
-    //TODO: AttackHandler + Amount of Ships
     bool addShip(int length, Point position, char alignment);
     bool handleAttack(Point position);
     bool isGameOver();
