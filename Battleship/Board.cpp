@@ -73,25 +73,27 @@ bool Board::doOverlap(Point A1, Point A2, Point B1, Point B2){
 bool Board::handleAttack(Point position){
     int id = shipMatrix[position.x][position.y];
     bool hit = false;
-    if(id != 0){
-        hit = _shipVector[id-1].handleAttack(position);
-        boardMatrix[position.x][position.y] = 2;
-        if(_shipVector[id-1].isSunk()) {
-            for (int y = _shipVector[id-1].getBlockedArea()[0].y; y <= _shipVector[id-1].getBlockedArea()[1].y; y++) {
-                for (int x = _shipVector[id-1].getBlockedArea()[0].x; x <= _shipVector[id-1].getBlockedArea()[1].x; x++) {
-                    if(boardMatrix[x][y] != 1) boardMatrix[x][y] = 3;
+    if(!_shipVector[id-1].isSunk()){
+        if(id != 0){
+            hit = _shipVector[id-1].handleAttack(position);
+            boardMatrix[position.x][position.y] = 2;
+            if(_shipVector[id-1].isSunk()) {
+                for (int y = _shipVector[id-1].getBlockedArea()[0].y; y <= _shipVector[id-1].getBlockedArea()[1].y; y++) {
+                    for (int x = _shipVector[id-1].getBlockedArea()[0].x; x <= _shipVector[id-1].getBlockedArea()[1].x; x++) {
+                        if(boardMatrix[x][y] != 1) boardMatrix[x][y] = 3;
+                    }
                 }
-            }
-            for (int y = _shipVector[id-1].getPosition()[0].y; y <= _shipVector[id-1].getPosition()[1].y; y++) {
-                for (int x = _shipVector[id-1].getPosition()[0].x; x <= _shipVector[id-1].getPosition()[1].x; x++) {
-                    boardMatrix[x][y] = 2;
+                for (int y = _shipVector[id-1].getPosition()[0].y; y <= _shipVector[id-1].getPosition()[1].y; y++) {
+                    for (int x = _shipVector[id-1].getPosition()[0].x; x <= _shipVector[id-1].getPosition()[1].x; x++) {
+                        boardMatrix[x][y] = 2;
+                    }
                 }
+                _sunkenShipsCount++;
             }
-            _sunkenShipsCount++;
         }
-    }
-    else{
-        boardMatrix[position.x][position.y] = 1;
+        else{
+            boardMatrix[position.x][position.y] = 1;
+        }
     }
     if(_sunkenShipsCount >= _shipVector.size()) _gameOver = true;
     return hit;
